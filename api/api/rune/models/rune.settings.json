@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "runes",
+  "info": {
+    "name": "Rune"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "weapon_effects": {
+      "type": "richtext"
+    },
+    "armor_effects": {
+      "type": "richtext"
+    },
+    "level_required": {
+      "type": "integer"
+    },
+    "icon": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "rune_words": {
+      "via": "runes",
+      "collection": "rune-words"
+    }
+  }
+}

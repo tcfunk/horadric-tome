@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/rune-words",
+      "handler": "rune-words.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/rune-words/count",
+      "handler": "rune-words.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/rune-words/:id",
+      "handler": "rune-words.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/rune-words",
+      "handler": "rune-words.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/rune-words/:id",
+      "handler": "rune-words.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/rune-words/:id",
+      "handler": "rune-words.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

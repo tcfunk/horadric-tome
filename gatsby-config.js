@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 module.exports = {
   siteMetadata: {
     title: "Horadric Tome",
@@ -26,5 +28,21 @@ module.exports = {
       },
       __key: "pages",
     },
+    // {
+    //   resolve: "gatsby-source-airtable",
+    //   options: {
+    //     apiKey: process.env.AIRTABLE_API_KEY,
+    //     tables: [
+    //       {
+    //         baseId: process.env.AIRTABLE_BASE,
+    //         tableName: "rune-words",
+    //       },
+    //       {
+    //         baseId: process.env.AIRTABLE_BASE,
+    //         tableName: "runes",
+    //       }
+    //     ]
+    //   }
+    // }
   ],
 };

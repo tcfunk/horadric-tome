@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rune_words",
+  "info": {
+    "name": "Rune Words",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "sockets": {
+      "type": "integer"
+    },
+    "runes": {
+      "collection": "rune",
+      "via": "rune_words",
+      "dominant": true
+    },
+    "stats": {
+      "type": "richtext"
+    },
+    "version": {
+      "type": "enumeration",
+      "enum": [
+        "original",
+        "v1_10",
+        "v1_11"
+      ]
+    },
+    "types": {
+      "collection": "item-type",
+      "via": "rune_words",
+      "dominant": true
+    },
+    "ladder": {
+      "type": "boolean"
+    }
+  }
+}
