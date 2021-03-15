@@ -1,3 +1,6 @@
+const contentfulAccessToken = `_wL2eDfreu96pIHk-54XOS6e8QVzW3Dxb6r4FrNzX3o`
+const contentfulPreviewToken = `-A2wMO09ksj5ZSdyslVL09Jxzap3V8WKkiyokyoN6uw`
+
 module.exports = {
   siteMetadata: {
     title: "Horadric Tome",
@@ -10,6 +13,14 @@ module.exports = {
     "gatsby-plugin-sharp",
     "@chakra-ui/gatsby-plugin",
     "gatsby-transformer-sharp",
+    {
+      resolve: "gatsby-source-contentful",
+      options: {
+        spaceId: `827uy2pit5gz`,
+        accessToken: contentfulAccessToken,
+        downloadLocal: true,
+      }
+    },
     {
       resolve: "gatsby-source-filesystem",
       options: {
