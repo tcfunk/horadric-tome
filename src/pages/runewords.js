@@ -54,14 +54,14 @@ class Page extends React.Component {
       <Layout>
         <Container>
           <FormControl paddingY={8}>
-            <FormLabel>Search by title, rune:</FormLabel>
-            <Input type="text" value={searchValue} onChange={this.setSearch} />
+            <Input type="text" value={searchValue} onChange={this.setSearch} placeholder="Search by rune or runeword" />
           </FormControl>
         </Container>
         <Container maxW="8xl">
           <SimpleGrid columns={4} spacing={4}>
             {this.filteredRunewords().map((runeword) =>
               <Runeword
+                favorite={false}
                 key={runeword.id}
                 title={runeword.title}
                 runes={runeword.runes}
