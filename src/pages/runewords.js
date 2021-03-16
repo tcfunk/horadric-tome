@@ -1,37 +1,76 @@
 import * as React from 'react'
 import { graphql } from "gatsby";
-import { Table, Thead, Tbody, Tr, Th, Td, Img } from "@chakra-ui/react"
+import { Container, SimpleGrid, FormControl, Input, FormLabel } from "@chakra-ui/react"
 
-import Layout from '../components/layout';
+import Layout from '../components/layout'
+import Runeword from '../components/runeword'
 
 class Page extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    let allRunewords = props.data.allContentfulRuneWord.nodes
+    this.state = {
+      runewords: allRunewords,
+      visible: allRunewords,
+      search: "",
+    }
+
+    this.setSearch = this.setSearch.bind(this)
+  }
+
+  searchLowerCase(needle, haystack) {
+    let lowerNeedle = needle.toLowerCase()
+    let lowerHaystack = haystack.toLowerCase()
+    return lowerHaystack.search(lowerNeedle) !== -1
+  }
+
+  filteredRunewords() {
+    if (this.state.search === "") return this.state.runewords
+
+    return this.state.runewords.filter((runeword) => {
+      let match = false
+
+      match = this.searchLowerCase(this.state.search, runeword.title)
+      if (!match)
+      {
+        var runeMatch = runeword.runes.filter((rune) => this.searchLowerCase(this.state.search, rune.title))
+        match = runeMatch.length > 0
+      }
+
+      return match
+    })
+  }
+
+  setSearch(e) {
+    this.setState({search: e.target.value})
+  }
+
   render() {
-    const runewords = this.props.data.allContentfulRuneWord.nodes
+    const searchValue = this.state.search
 
     return (
       <Layout>
-        <Table colorScheme="blackAlpha">
-          <Thead>
-            <Tr>
-              <Th>Name</Th>
-              <Th>Allowed Items</Th>
-              <Th>Rune Order</Th>
-              <Th>Completed Stats</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {runewords.map((runeword) => 
-              <Tr>
-                <Td>{runeword.title}</Td>
-                <Td>{runeword.sockets} socket {runeword.itemTypes?.join('/')}</Td>
-                <Td>{runeword.runes.map((rune) => 
-                  <Img src={rune.icon.resize.base64} title={rune.title} alt={rune.title} style={{ display: 'inline-block'}} />
-                )}</Td>
-                <Td>stats</Td>
-              </Tr>
+        <Container>
+          <FormControl paddingY={8}>
+            <FormLabel>Search by title, rune:</FormLabel>
+            <Input type="text" value={searchValue} onChange={this.setSearch} />
+          </FormControl>
+        </Container>
+        <Container maxW="8xl">
+          <SimpleGrid columns={4} spacing={4}>
+            {this.filteredRunewords().map((runeword) =>
+              <Runeword
+                key={runeword.id}
+                title={runeword.title}
+                runes={runeword.runes}
+                itemTypes={runeword.itemTypes}
+                sockets={runeword.sockets}
+                stats={runeword.stats.raw} />
             )}
-          </Tbody>
-        </Table>
+          </SimpleGrid>
+        </Container>
       </Layout>
     )
   }
@@ -39,12 +78,15 @@ class Page extends React.Component {
 
 export const query = graphql`
 query {
-  allContentfulRuneWord {
+  allContentfulRuneWord(sort: {order: ASC, fields: title}) {
     nodes {
       id
       title
       itemTypes
       sockets
+      stats {
+        raw
+      }
       runes {
         title
         icon {

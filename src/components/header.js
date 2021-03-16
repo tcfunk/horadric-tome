@@ -1,15 +1,15 @@
 import React from 'react'
-import { Container, Divider, ChakraProvider } from "@chakra-ui/react"
-import { Link } from 'gatsby'
+import { Container, Divider, ChakraProvider, Link } from "@chakra-ui/react"
+import { Link as GatsbyLink } from 'gatsby'
 
 class Header extends React.Component {
   render() {
     return (
       <ChakraProvider>
 
-        <Container>
-          <Link to="/runes">Runes</Link>
-          <Link to="/runewords">Runewords</Link>
+        <Container p={16}>
+          <Link as={GatsbyLink} to="/runes">Runes</Link>
+          <Link as={GatsbyLink} to="/runewords">Runewords</Link>
         </Container>
 
         <Divider />
