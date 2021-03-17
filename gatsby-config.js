@@ -1,6 +1,3 @@
-const contentfulAccessToken = `_wL2eDfreu96pIHk-54XOS6e8QVzW3Dxb6r4FrNzX3o`
-const contentfulPreviewToken = `-A2wMO09ksj5ZSdyslVL09Jxzap3V8WKkiyokyoN6uw`
-
 module.exports = {
   siteMetadata: {
     title: "Horadric Tome",

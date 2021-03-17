@@ -21,6 +21,7 @@
     "@contentful/rich-text-html-renderer": "^14.1.2",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
+    "dotenv": "^8.2.0",
     "framer-motion": "^3.10.3",
     "gatsby": "^3.0.1",
     "gatsby-plugin-gatsby-cloud": "^2.0.0",
