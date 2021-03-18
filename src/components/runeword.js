@@ -1,7 +1,22 @@
 import * as React from "react"
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer"
 
+import { FiHeart, FiTrash } from 'react-icons/fi'
+
 import GridItem from '../components/style-elements/grid-item'
+import styled from "styled-components"
+
+
+const FavButton = styled.a.attrs({
+  className: `
+    absolute
+    top-4
+    right-4
+    text-white
+    invisible
+    group-hover:visible
+  `
+})``
 
 
 class Runeword extends React.Component {
@@ -34,11 +49,6 @@ class Runeword extends React.Component {
     this.setState({favorite: !this.state.favorite})
   }
 
-  favoriteIcon() {
-    return ''
-    // return this.state.favorite ? <DeleteIcon /> : <AddIcon />
-  }
-
   favoriteTooltip() {
     return this.state.favorite ?
       "Remove from collection" :
@@ -48,14 +58,14 @@ class Runeword extends React.Component {
   render() {
 
     return (
-      <GridItem onMouseEnter={this.onOpen} onMouseLeave={this.onClose}>
+      <GridItem onMouseEnter={this.onOpen} onMouseLeave={this.onClose} className="group">
         <p className="text-yellow-300 text-2xl">{this.props.title}</p>
         <p className="text-gray-200 text-md">{this.props.sockets} Socket {this.state.itemTypes}</p>
         <p className="text-yellow-300 text-lg">{this.state.runes}</p>
 
-        {/* <Fade in={this.state.isOpen}>
-          <IconButton title={this.favoriteTooltip()} pos="absolute" size="sm" right={4} top={4} icon={this.favoriteIcon()} onClick={this.toggleFavorite}></IconButton>
-        </Fade> */}
+        <FavButton onClick={this.toggleFavorite} title={this.favoriteTooltip()}>
+          {this.state.favorite ? <FiTrash /> : <FiHeart />}
+        </FavButton>
 
         {this.state.isOpen && <div className="absolute w-full left-0 bg-gray-800 p-4 rounded-b border-r-2 border-b-2 border-l-2">
           <p className="text-blue-400 whitespace-pre-line" dangerouslySetInnerHTML={{__html: this.state.stats}}></p>
