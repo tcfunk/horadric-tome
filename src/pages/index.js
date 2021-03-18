@@ -21,22 +21,28 @@ const FavButton = styled.a.attrs({
   `
 })``
 
-class Page extends React.Component {
+class IndexPage extends React.Component {
 
   constructor(props) {
     super(props)
 
-    // const userFavorites = React.useState(JSON.parse(localStorage.getItem('favorited-runewords')))
-
     let allRunewords = props.data.allContentfulRuneWord.nodes
     this.state = {
       runewords: allRunewords,
-      visible: allRunewords,
+      visibleRunewords: allRunewords,
       search: "",
       favorites: [],
     }
 
     this.setSearch = this.setSearch.bind(this)
+  }
+
+  componentDidMount() {
+    let storedFavorites = JSON.parse(localStorage.getItem('favorites'))
+    if (storedFavorites === null) {
+      storedFavorites = []
+    }
+    this.setState({favorites: storedFavorites})
   }
 
   searchLowerCase(needle, haystack) {
@@ -45,58 +51,72 @@ class Page extends React.Component {
     return lowerHaystack.search(lowerNeedle) !== -1
   }
 
-  filteredRunewords() {
-    if (this.state.search === "") return this.state.runewords
+  filterRunewords(searchVal) {
+    let visible = this.state.runewords
 
-    return this.state.runewords.filter((runeword) => {
-      let match = false
+    if (searchVal !== "") {
+      visible = this.state.runewords.filter((runeword) => {
+        let match = false
 
-      match = this.searchLowerCase(this.state.search, runeword.title)
-      if (!match)
-      {
-        var runeMatch = runeword.runes.filter((rune) => this.searchLowerCase(this.state.search, rune.title))
-        match = runeMatch.length > 0
-      }
+        match = this.searchLowerCase(searchVal, runeword.title)
+        if (!match)
+        {
+          var runeMatch = runeword.runes.filter((rune) => this.searchLowerCase(searchVal, rune.title))
+          match = runeMatch.length > 0
+        }
 
-      return match
-    })
+        return match
+      })
+    }
+
+    this.setState({visibleRunewords: visible})
   }
 
   isFavorited(id) {
-    return this.state.favorites.indexOf(id) !== -1
-  }
-
-  setSearch(e) {
-    this.setState({search: e.target.value})
-  }
-
-  toggleFavorite(id) {
-    const pos = this.state.favorites.indexOf(id)
-    let favorites = this.state.favorites
-
-    if (pos === -1) {
-      favorites.push(id)
-    } else {
-      favorites.splice(pos, 1)
-    }
-
-    this.setState({favorites: favorites})
+    return this.state.favorites?.indexOf(id) !== -1
   }
 
   favoriteTooltip(id) {
-    return this.isFavorited(id) ?
+    return this.isFavorited(id) ? 
       "Remove from collection" :
       "Add to collection"
   }
 
+  toggleFavorite(id) {
+    let favs = this.state.favorites
+    const idx = favs.indexOf(id)
+
+    if (idx === -1) {
+      favs.push(id)
+    } else {
+      favs.splice(idx, 1)
+    }
+
+    this.setState({favorites: favs})
+    this.persistFavorites(favs)
+  }
+
+  persistFavorites(favs) {
+    localStorage.setItem('favorites', JSON.stringify(favs))
+  }
+
+  setSearch(e) {
+    let searchVal = e.target.value
+    this.setState({search: searchVal})
+    this.filterRunewords(searchVal)
+  }
+
+
   render() {
+    const searchValue = this.state.searchValue
+
     return (
       <Layout>
         <div className="container mx-auto mt-8">
           <TextInput value={searchValue} onChange={this.setSearch} placeholder="Search by rune or runeword" />
         </div>
         <div className="container mx-auto grid grid-cols-4 gap-4 mt-8">
-          {this.filteredRunewords().map((runeword) =>
+          {this.state.visibleRunewords.map((runeword) =>
               <Runeword
                 favorite={false}
                 key={runeword.id}
@@ -107,7 +127,7 @@ class Page extends React.Component {
                 stats={runeword.stats.raw}>
 
                 <FavButton onClick={() => this.toggleFavorite(runeword.id)} title={this.favoriteTooltip(runeword.id)} favorite={this.isFavorited(runeword.id)}>
-                  {this.state.favorite ? <FiTrash /> : <FiHeart />}
+                  {this.isFavorited(runeword.id) ? <FiTrash /> : <FiHeart />}
                 </FavButton>
               </Runeword>
           )}
@@ -116,5 +136,29 @@ class Page extends React.Component {
     )
   }
 }
+
+export const query = graphql`
+query {
+  allContentfulRuneWord(sort: {order: ASC, fields: title}) {
+    nodes {
+      id
+      title
+      itemTypes
+      sockets
+      stats {
+        raw
+      }
+      runes {
+        title
+        icon {
+          resize(width: 28) {
+            base64
+          }
+        }
+      }
+    }
+  }
+}
+`
 
 export default IndexPage
