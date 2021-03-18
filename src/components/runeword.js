@@ -1,24 +1,8 @@
 import * as React from "react"
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer"
-
-import { FiHeart, FiTrash } from 'react-icons/fi'
-
-import GridItem from '../components/style-elements/grid-item'
 import styled from "styled-components"
 
-
-const FavButton = styled.a.attrs({
-  className: `
-    absolute
-    top-4
-    right-4
-    text-white
-    transition
-    duration-300
-    opacity-0
-    group-hover:opacity-100
-  `
-})``
+import GridItem from '../components/style-elements/grid-item'
 
 
 class Runeword extends React.Component {
@@ -47,16 +31,6 @@ class Runeword extends React.Component {
     this.setState({isOpen: false})
   }
 
-  toggleFavorite() {
-    this.setState({favorite: !this.state.favorite})
-  }
-
-  favoriteTooltip() {
-    return this.state.favorite ?
-      "Remove from collection" :
-      "Add to collection"
-  }
-
   render() {
 
     return (
@@ -65,9 +39,7 @@ class Runeword extends React.Component {
         <p className="text-gray-200 text-md">{this.props.sockets} Socket {this.state.itemTypes}</p>
         <p className="text-yellow-300 text-lg">{this.state.runes}</p>
 
-        <FavButton onClick={this.toggleFavorite} title={this.favoriteTooltip()} favorite={this.state.favorite}>
-          {this.state.favorite ? <FiTrash /> : <FiHeart />}
-        </FavButton>
+        {this.props.children}
 
         {this.state.isOpen && <div className="absolute w-full left-0 bg-gray-800 p-4 rounded-b border-r-2 border-b-2 border-l-2">
           <p className="text-blue-400 whitespace-pre-line" dangerouslySetInnerHTML={{__html: this.state.stats}}></p>
