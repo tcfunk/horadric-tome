@@ -13,6 +13,8 @@ export default styled.div.attrs({
     ring-white
     ring-2
     ring-inset
+    transition
+    duration-100
     hover:scale-110
     hover:bg-gray-800
     hover:z-10

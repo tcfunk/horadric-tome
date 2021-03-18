@@ -13,8 +13,10 @@ const FavButton = styled.a.attrs({
     top-4
     right-4
     text-white
-    invisible
-    group-hover:visible
+    transition
+    duration-300
+    opacity-0
+    group-hover:opacity-100
   `
 })``
 
@@ -63,7 +65,7 @@ class Runeword extends React.Component {
         <p className="text-gray-200 text-md">{this.props.sockets} Socket {this.state.itemTypes}</p>
         <p className="text-yellow-300 text-lg">{this.state.runes}</p>
 
-        <FavButton onClick={this.toggleFavorite} title={this.favoriteTooltip()}>
+        <FavButton onClick={this.toggleFavorite} title={this.favoriteTooltip()} favorite={this.state.favorite}>
           {this.state.favorite ? <FiTrash /> : <FiHeart />}
         </FavButton>
 
