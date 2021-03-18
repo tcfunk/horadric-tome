@@ -32,9 +32,11 @@ class IndexPage extends React.Component {
       visibleRunewords: allRunewords,
       search: "",
       favorites: [],
+      showOnlyFavorites: false,
     }
 
     this.setSearch = this.setSearch.bind(this)
+    this.toggleShowFavorites = this.toggleShowFavorites.bind(this)
   }
 
   componentDidMount() {
@@ -51,14 +53,18 @@ class IndexPage extends React.Component {
     return lowerHaystack.search(lowerNeedle) !== -1
   }
 
-  filterRunewords(searchVal) {
+  filterRunewords(searchVal, onlyFavs) {
     let visible = this.state.runewords
+    let favs = this.state.favorites
 
-    if (searchVal !== "") {
-      visible = this.state.runewords.filter((runeword) => {
-        let match = false
+    visible = this.state.runewords.filter((runeword) => {
 
-        match = this.searchLowerCase(searchVal, runeword.title)
+      // Check if in favorites, if needed
+      if (onlyFavs && favs.indexOf(runeword.id) === -1) return false
+
+      // Filter by search, but skip if no search text
+      if (searchVal !== "") {
+        let match = this.searchLowerCase(searchVal, runeword.title)
         if (!match)
         {
           var runeMatch = runeword.runes.filter((rune) => this.searchLowerCase(searchVal, rune.title))
@@ -66,8 +72,10 @@ class IndexPage extends React.Component {
         }
 
         return match
-      })
-    }
+      }
+
+      return true
+    })
 
     this.setState({visibleRunewords: visible})
   }
@@ -103,9 +111,14 @@ class IndexPage extends React.Component {
   setSearch(e) {
     let searchVal = e.target.value
     this.setState({search: searchVal})
-    this.filterRunewords(searchVal)
+    this.filterRunewords(searchVal, this.state.showOnlyFavorites)
   }
 
+  toggleShowFavorites() {
+    const onlyFavs = !this.state.showOnlyFavorites
+    this.setState({showOnlyFavorites: onlyFavs})
+    this.filterRunewords(this.state.search, onlyFavs)
+  }
 
   render() {
     const searchValue = this.state.searchValue
@@ -114,6 +127,10 @@ class IndexPage extends React.Component {
       <Layout>
         <div className="container mx-auto mt-8">
           <TextInput value={searchValue} onChange={this.setSearch} placeholder="Search by rune or runeword" />
+          <label className="mx-4">
+            <input type="checkbox" onChange={this.toggleShowFavorites} className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            Show only favorites
+          </label>
         </div>
         <div className="container mx-auto grid grid-cols-4 gap-4 mt-8">
           {this.state.visibleRunewords.map((runeword) =>
