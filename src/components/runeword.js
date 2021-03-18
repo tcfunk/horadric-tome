@@ -1,7 +1,7 @@
 import * as React from "react"
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer"
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons"
-import { Box, Fade, IconButton, Text } from "@chakra-ui/react"
+
+import GridItem from '../components/style-elements/grid-item'
 
 
 class Runeword extends React.Component {
@@ -35,7 +35,8 @@ class Runeword extends React.Component {
   }
 
   favoriteIcon() {
-    return this.state.favorite ? <DeleteIcon /> : <AddIcon />
+    return ''
+    // return this.state.favorite ? <DeleteIcon /> : <AddIcon />
   }
 
   favoriteTooltip() {
@@ -44,29 +45,22 @@ class Runeword extends React.Component {
       "Add to collection"
   }
 
-  hoverStyle() {
-    return {
-      transform: this.state.isOpen ? "scale: 1.25" : "scale: 1.0",
-      backgroundColor: "gray.700"
-    }
-  }
-
   render() {
 
     return (
-      <Box onMouseEnter={this.onOpen} onMouseLeave={this.onClose} pos="relative" textAlign="center" p={4} rounded={4} backgroundColor={this.state.isOpen ? "gray.700" : "gray.600"}>
-          <Text fontSize="xl" color="orange.200">{this.props.title}</Text>
-          <Text fontSize="xl" color="gray.200">{this.props.sockets} Socket {this.state.itemTypes}</Text>
-          <Text fontSize="xl" color="orange.200">{this.state.runes}</Text>
+      <GridItem onMouseEnter={this.onOpen} onMouseLeave={this.onClose}>
+        <p className="text-yellow-300 text-2xl">{this.props.title}</p>
+        <p className="text-gray-200 text-md">{this.props.sockets} Socket {this.state.itemTypes}</p>
+        <p className="text-yellow-300 text-lg">{this.state.runes}</p>
 
-          <Fade in={this.state.isOpen}>
-            <IconButton title={this.favoriteTooltip()} pos="absolute" size="sm" right={4} top={4} icon={this.favoriteIcon()} onClick={this.toggleFavorite}></IconButton>
-          </Fade>
+        {/* <Fade in={this.state.isOpen}>
+          <IconButton title={this.favoriteTooltip()} pos="absolute" size="sm" right={4} top={4} icon={this.favoriteIcon()} onClick={this.toggleFavorite}></IconButton>
+        </Fade> */}
 
-          {this.state.isOpen && <Box pos="absolute" width="100%" left={0} zIndex={1000} backgroundColor="gray.700" py={4} rounded={4}>
-            <Text top={0} color="blue.400" whiteSpace="pre-line" dangerouslySetInnerHTML={{__html: this.state.stats}}></Text>
-          </Box>}
-      </Box>
+        {this.state.isOpen && <div className="absolute w-full left-0 bg-gray-800 p-4 rounded-b border-r-2 border-b-2 border-l-2">
+          <p className="text-blue-400 whitespace-pre-line" dangerouslySetInnerHTML={{__html: this.state.stats}}></p>
+        </div>}
+      </GridItem>
     )
   }
 } 

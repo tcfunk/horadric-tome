@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { graphql } from "gatsby";
-import { Container, SimpleGrid } from '@chakra-ui/layout';
 
 import Layout from '../components/layout';
 import Rune from '../components/rune';
@@ -11,8 +10,8 @@ class Page extends React.Component {
 
     return (
       <Layout>
-        <Container maxW="8xl">
-          <SimpleGrid columns={4} spacing={4}>
+        <div>
+          <div>
             {runes.map((rune) =>
               <Rune
                 title={rune.title}
@@ -21,8 +20,8 @@ class Page extends React.Component {
                 icon={rune.icon.resize.base64}
               />
             )}
-          </SimpleGrid>
-        </Container>
+          </div>
+        </div>
       </Layout>
     )
   }

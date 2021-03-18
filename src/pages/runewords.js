@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { graphql } from "gatsby";
-import { Container, SimpleGrid, FormControl, Input, FormLabel } from "@chakra-ui/react"
 
 import Layout from '../components/layout'
 import Runeword from '../components/runeword'
+import TextInput from '../components/style-elements/text-input'
 
 class Page extends React.Component {
 
@@ -52,25 +52,21 @@ class Page extends React.Component {
 
     return (
       <Layout>
-        <Container>
-          <FormControl paddingY={8}>
-            <Input type="text" value={searchValue} onChange={this.setSearch} placeholder="Search by rune or runeword" />
-          </FormControl>
-        </Container>
-        <Container maxW="8xl">
-          <SimpleGrid columns={4} spacing={4}>
-            {this.filteredRunewords().map((runeword) =>
-              <Runeword
-                favorite={false}
-                key={runeword.id}
-                title={runeword.title}
-                runes={runeword.runes}
-                itemTypes={runeword.itemTypes}
-                sockets={runeword.sockets}
-                stats={runeword.stats.raw} />
-            )}
-          </SimpleGrid>
-        </Container>
+        <div className="container mx-auto mt-8">
+          <TextInput value={searchValue} onChange={this.setSearch} placeholder="Search by rune or runeword" />
+        </div>
+        <div className="container mx-auto grid grid-cols-4 gap-4 mt-8">
+          {this.filteredRunewords().map((runeword) =>
+            <Runeword
+              favorite={false}
+              key={runeword.id}
+              title={runeword.title}
+              runes={runeword.runes}
+              itemTypes={runeword.itemTypes}
+              sockets={runeword.sockets}
+              stats={runeword.stats.raw} />
+          )}
+        </div>
       </Layout>
     )
   }

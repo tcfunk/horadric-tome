@@ -10,7 +10,7 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-transformer-remark",
     "gatsby-plugin-sharp",
-    "@chakra-ui/gatsby-plugin",
+    "gatsby-plugin-postcss",
     "gatsby-transformer-sharp",
     {
       resolve: "gatsby-source-contentful",
