@@ -2,6 +2,9 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      'sans': ['Roboto'],
+    },
     extend: {},
   },
   variants: {
@@ -9,7 +12,7 @@ module.exports = {
       position: ['hover', 'group-hover'],
       zIndex: ['hover', 'group-hover'],
       scale: ['hover', 'group-hover'],
-      visibility: ['hover', 'group-hover'],
+      fill: ['hover'],
     },
   },
   plugins: [],
