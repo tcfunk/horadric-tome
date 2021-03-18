@@ -1,52 +1,26 @@
 import * as React from "react"
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer"
-import styled from "styled-components"
 
 import GridItem from '../components/style-elements/grid-item'
 
 
-class Runeword extends React.Component {
+export default function Runeword(props) {
+  const [isOpen, setOpen] = React.useState(false)
+  const stats = documentToHtmlString(JSON.parse(props.stats))
+  const runes = props.runes.map((rune) => rune.title).join(' + ')
+  const itemTypes = props.itemTypes?.join('/')
 
-  constructor(props) {
-    super(props)
+  return (
+    <GridItem onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="group">
+      <p className="text-yellow-300 text-2xl">{props.title}</p>
+      <p className="text-gray-200 text-md">{props.sockets} Socket {itemTypes}</p>
+      <p className="text-yellow-300 text-lg">{runes}</p>
 
-    this.state = {
-      itemTypes: props.itemTypes?.join('/'),
-      runes: props.runes.map((rune) => rune.title).join(' + '),
-      stats: documentToHtmlString(JSON.parse(props.stats)),
-      favorite: props.favorite || false,
-      isOpen: false
-    }
+      {props.children}
 
-    this.toggleFavorite = this.toggleFavorite.bind(this)
-    this.onOpen = this.onOpen.bind(this)
-    this.onClose = this.onClose.bind(this)
-  }
-
-  onOpen() {
-    this.setState({isOpen: true})
-  }
-
-  onClose() {
-    this.setState({isOpen: false})
-  }
-
-  render() {
-
-    return (
-      <GridItem onMouseEnter={this.onOpen} onMouseLeave={this.onClose} className="group">
-        <p className="text-yellow-300 text-2xl">{this.props.title}</p>
-        <p className="text-gray-200 text-md">{this.props.sockets} Socket {this.state.itemTypes}</p>
-        <p className="text-yellow-300 text-lg">{this.state.runes}</p>
-
-        {this.props.children}
-
-        {this.state.isOpen && <div className="absolute w-full left-0 bg-gray-800 p-4 rounded-b border-r-2 border-b-2 border-l-2">
-          <p className="text-blue-400 whitespace-pre-line" dangerouslySetInnerHTML={{__html: this.state.stats}}></p>
-        </div>}
-      </GridItem>
-    )
-  }
-} 
-
-export default Runeword
+      {isOpen && <div className="absolute w-full left-0 bg-gray-800 p-4 rounded-b border-r-2 border-b-2 border-l-2">
+        <p className="text-blue-400 whitespace-pre-line" dangerouslySetInnerHTML={{__html: stats}}></p>
+      </div>}
+    </GridItem>
+  )
+}
