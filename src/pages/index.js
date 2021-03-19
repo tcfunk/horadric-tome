@@ -6,6 +6,7 @@ import styled from "styled-components"
 import Layout from '../components/layout'
 import Runeword from '../components/runeword'
 import TextInput from '../components/style-elements/text-input'
+import Checkbox from '../components/style-elements/checkbox'
 
 
 const FavButton = styled.a.attrs({
@@ -126,12 +127,16 @@ class IndexPage extends React.Component {
 
     return (
       <Layout>
-        <div className="container mx-auto mt-8">
+        <div className="container mx-auto mt-8 flex justify-start space-x-4">
           <TextInput value={searchValue} onChange={this.setSearch} placeholder="Search by rune or runeword" />
-          <label className="mx-4">
-            <input type="checkbox" onChange={this.toggleShowFavorites} className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+          <Checkbox onChange={this.toggleShowFavorites}>
             Show only favorites
-          </label>
+          </Checkbox>
+          {/* <label className="mx-4">
+
+            <input type="checkbox"  className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+            Show only favorites
+          </label> */}
         </div>
         <div className="container mx-auto grid grid-cols-4 gap-4 mt-8">
           {this.state.visibleRunewords.map((runeword) =>
