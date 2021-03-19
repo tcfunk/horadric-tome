@@ -36,5 +36,12 @@ module.exports = {
       },
       __key: "pages",
     },
+    {
+      resolve: "gatsby-plugin-purgecss",
+      options: {
+        printRejected: true,
+        tailwind: true,
+      }
+    }
   ],
 };
