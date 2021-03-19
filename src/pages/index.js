@@ -127,18 +127,13 @@ class IndexPage extends React.Component {
 
     return (
       <Layout>
-        <div className="container mx-auto mt-8 flex justify-start space-x-4">
+        <div className="container mx-auto mt-8 p-2 flex justify-start space-x-4 space-y-4 flex-wrap">
           <TextInput value={searchValue} onChange={this.setSearch} placeholder="Search by rune or runeword" />
           <Checkbox onChange={this.toggleShowFavorites}>
             Show only favorites
           </Checkbox>
-          {/* <label className="mx-4">
-
-            <input type="checkbox"  className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
-            Show only favorites
-          </label> */}
         </div>
-        <div className="container mx-auto grid grid-cols-4 gap-4 mt-8">
+        <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
           {this.state.visibleRunewords.map((runeword) =>
               <Runeword
                 favorite={false}
