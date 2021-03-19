@@ -102,6 +102,7 @@ class IndexPage extends React.Component {
 
     this.setState({favorites: favs})
     this.persistFavorites(favs)
+    this.filterRunewords(this.state.search, this.state.showOnlyFavorites)
   }
 
   persistFavorites(favs) {
