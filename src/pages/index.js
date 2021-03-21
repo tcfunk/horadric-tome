@@ -7,6 +7,7 @@ import Layout from '../components/layout'
 import Runeword from '../components/runeword'
 import TextInput from '../components/style-elements/text-input'
 import Checkbox from '../components/style-elements/checkbox'
+import { Helmet } from 'react-helmet';
 
 
 const FavButton = styled.a.attrs({
@@ -127,6 +128,10 @@ class IndexPage extends React.Component {
 
     return (
       <Layout>
+        <Helmet>
+          <title>Runeword lookup tool</title>
+          <meta name="description" content="Horadric Tome is a Diablo II runeword lookup and management tool" />
+        </Helmet>
         <div className="container mx-auto mt-8 p-2 flex justify-start space-x-4 space-y-4 flex-wrap">
           <TextInput value={searchValue} onChange={this.setSearch} placeholder="Search by rune or runeword" />
           <Checkbox onChange={this.toggleShowFavorites}>
